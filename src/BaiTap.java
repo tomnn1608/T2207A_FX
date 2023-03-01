@@ -1,25 +1,43 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.ResourceBundle;
 
-public class BaiTap {
+import javafx.scene.control.Button;
+
+public class BaiTap implements Initializable {
 
     public TextField Name;
     public TextField Telephone;
 
+    public static TextField stName;
+    public static TextField stPhone;
+
     public ObservableList<Danhba> listDanhba = FXCollections.observableArrayList();
+
+
     public ListView<Danhba> ld;
-    public Danhba editStudent;
+    public static Danhba editStudent;
 
     public boolean ascending=true;
+
+    public TableView<Danhba> tbview;
+    public TableColumn<Danhba,String> name;
+    public TableColumn<Danhba,String> telephone;
+    public TableColumn<Danhba,Button>action;
 
     public void submit(ActionEvent actionEvent) {
         String n = Name.getText();
@@ -38,8 +56,8 @@ public class BaiTap {
                 }
             }
         }
-        ld.setItems(listDanhba);
-        ld.refresh();
+        tbview.setItems(listDanhba);
+        tbview.refresh();
         editStudent = null;
         clearInput();
     }
@@ -72,5 +90,15 @@ public class BaiTap {
             });
         }
         ascending = !ascending;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        telephone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        action.setCellValueFactory(new PropertyValueFactory<>("edit"));
+
+        stName = Name;
+        stPhone = Telephone;
     }
 }
